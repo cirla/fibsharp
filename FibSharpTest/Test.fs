@@ -11,17 +11,15 @@ module TestMessage =
 
     [<Test>]
     let ``Parsing Welcome message``() =
-
-        parse "1 myself 1041253132 192.168.1.308"
-            =? Right (Info Welcome)
+        "1 myself 1041253132 192.168.1.308"
+        |> parse =? Right (Info Welcome)
 
     [<Test>]
     let ``Test parsing errors``() =
+        "** Warning: You are already logged in."
+        |> parse =? Right (Error AlreadyLoggedIn)
 
-        parse "** Warning: You are already logged in."
-            =? Right (Error AlreadyLoggedIn)
-    
-        parse "** Please use another name. 'foo' is already used by someone else."
-            =? Right (Error (UsernameTaken "foo"))
+        "** Please use another name. 'foo' is already used by someone else."
+        |> parse =? Right (Error (UsernameTaken "foo"))
 
         parse "** nonsense" =? Left (UnknownError "nonsense")

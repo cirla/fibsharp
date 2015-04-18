@@ -5,28 +5,31 @@ open System.Text
 module Command =
     let private encoding = new ASCIIEncoding ()
 
-    let private newLine = encoding.GetString ([| 13uy; 10uy |])
+    let NewLine = encoding.GetString ([| 13uy; 10uy |])
 
     let login clientName clipVersion username password =
-        sprintf "login %s %d %s %s%s" clientName clipVersion username password newLine
+        sprintf "login %s %s %s %s" clientName clipVersion username password
 
     let logout =
-        sprintf "bye%s" newLine
+        sprintf "bye"
+
+    let name username =
+        sprintf "name %s" username
 
     let shout message =
-        sprintf "shout %s%s" message newLine
+        sprintf "shout %s" message
 
     let kibitz message =
-        sprintf "kibitz %s%s" message newLine
+        sprintf "kibitz %s" message
 
     let tell name message =
-        sprintf "tell %s %s%s" name message newLine
+        sprintf "tell %s %s" name message
 
     let say message =
-        sprintf "say %s%s" message newLine
+        sprintf "say %s" message
 
     let whisper message =
-        sprintf "whisper %s%s" message newLine
+        sprintf "whisper %s" message
 
     let message user message =
-        sprintf "message %s %s%s" user message newLine
+        sprintf "message %s %s" user message

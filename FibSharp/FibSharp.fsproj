@@ -41,8 +41,9 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Utility.fs" />
     <Compile Include="Command.fs" />
-    <Compile Include="Client.fs" />
     <Compile Include="Message.fs" />
+    <Compile Include="CLIP.fs" />
+    <Compile Include="Client.fs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.1\Framework\v4.0\Microsoft.FSharp.Targets" />
 </Project>

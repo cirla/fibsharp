@@ -3,48 +3,19 @@
 open System.IO
 open System.Net.Sockets
 
-open Command
+type Client() = 
 
-module Client = 
+    let mutable clip = None
 
-    [<Literal>]
-    let ClientName = "FibSharp_v0.1"
+    member this.register username password =
+        CLIP.register username password
 
-    [<Literal>]
-    let CLIPVersion = 1008
+    member this.connect username password = 
+        clip <- Some <| CLIP.connect username password
 
-    [<Literal>]
-    let FIBSHostname = "fibs.com"
-
-    [<Literal>]
-    let FIBSPort = 4321us
-
-    type Client = {
-        Stream: NetworkStream;
-        Reader: StreamReader;
-        Writer: StreamWriter;
-    }
-
-    let connect username password =
-        let tcpClient = new System.Net.Sockets.TcpClient ()
-        tcpClient.Connect (FIBSHostname, int FIBSPort)
-        let stream = tcpClient.GetStream ()
-
-        let client = {
-            Stream = stream;
-            Reader = new StreamReader(stream);
-            Writer = new StreamWriter(stream);
-        }
-
-        let loginString =
-            Command.login ClientName CLIPVersion username password
-
-        client.Writer.Write(loginString)
-
-        client
-
-    let close client =
-        Command.logout
-        |> client.Writer.Write
-
-        client.Stream.Close ()
+    member this.close () =
+        match clip with
+        | Some c ->
+            CLIP.close c
+            clip <- None
+        | None -> ()
