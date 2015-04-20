@@ -2,5 +2,5 @@
 
 # FibSharp
 
-A cross-platform [FIBS](http://fibs.com/) client.
+A cross-platform [FIBS](http://fibs.com/) client (using [CLIP](http://www.fibs.com/fibs_interface.html)).
 
