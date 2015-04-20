@@ -1,5 +1,7 @@
 ﻿namespace FibSharpTest
 
+open System
+
 open FsCheck
 open NUnit.Framework
 open Swensen.Unquote
@@ -12,14 +14,16 @@ module TestMessage =
     [<Test>]
     let ``Parsing Welcome message``() =
         "1 myself 1041253132 192.168.1.308"
-        |> parse =? Right (Info Welcome)
+        |> parse =? Welcome { name = "myself";
+                              lastLogin = DateTime.fromUnix 1041253132L;
+                              lastHost = "192.168.1.308" }
 
     [<Test>]
     let ``Test parsing errors``() =
         "** Warning: You are already logged in."
-        |> parse =? Right (Error AlreadyLoggedIn)
+        |> parse =? AlreadyLoggedIn
 
         "** Please use another name. 'foo' is already used by someone else."
-        |> parse =? Right (Error (UsernameTaken "foo"))
+        |> parse =? UsernameTaken "foo"
 
-        parse "** nonsense" =? Left (UnknownError "nonsense")
+        parse "** nonsense" =? Unknown "** nonsense"

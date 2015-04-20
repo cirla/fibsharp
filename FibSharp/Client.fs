@@ -10,8 +10,8 @@ type Client() =
     member this.register username password =
         CLIP.register username password
 
-    member this.connect username password = 
-        clip <- Some <| CLIP.connect username password
+    member this.login username password =
+        clip <- Some <| CLIP.login username password
 
     member this.close () =
         match clip with

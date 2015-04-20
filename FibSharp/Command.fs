@@ -3,15 +3,11 @@
 open System.Text
 
 module Command =
-    let private encoding = new ASCIIEncoding ()
-
-    let NewLine = encoding.GetString ([| 13uy; 10uy |])
 
     let login clientName clipVersion username password =
         sprintf "login %s %s %s %s" clientName clipVersion username password
 
-    let logout =
-        sprintf "bye"
+    let logout = "bye"
 
     let name username =
         sprintf "name %s" username

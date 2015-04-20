@@ -1,14 +1,12 @@
 ﻿namespace FibSharp
 
+open System
 open System.Text.RegularExpressions
 
 module Utility =
-    type Either<'a, 'b> = Choice<'b, 'a>
-    let Right x :Either<'a, 'b> = Choice1Of2 x
-    let Left x :Either<'a, 'b> = Choice2Of2 x
-    let (|Right|Left|) = function
-        | Choice1Of2 x -> Right x
-        | Choice2Of2 x -> Left x
+    module DateTime =
+        let Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+        let fromUnix (unixTime:int64) = Epoch.AddSeconds (float unixTime) 
 
     let (|Regex|_|) pattern input =
         let m = Regex.Match (input, pattern)

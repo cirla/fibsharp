@@ -6,11 +6,61 @@ open FibSharp.Utility
 
 module Message =
 
-    type Info =
-        | Welcome
+    type Welcome = {
+        name      : string;
+        lastLogin : DateTime;
+        lastHost  : string;
+    }
+
+    let welcome (args:string[]) =
+        match args.Length with
+        | 3 -> { name = args.[0];
+                 lastLogin = DateTime.fromUnix (System.Int64.Parse args.[1]);
+                 lastHost = args.[2] }
+        | _ -> invalidArg "args" (sprintf "Expected 3 arguments, got %d." args.Length)
+
+    type Redoubles =
+        | None
+        | Unlimited
+        | Value of int
+
+    let redoubles = function
+        | "none" -> None
+        | "unlimited" -> Unlimited
+        | Regex @"(\d)" [value] -> System.Int32.Parse value |> Value
+        | _ -> invalidArg "value" "Valid values are 0-99, 'none', and 'unlimited'"
+
+    type OwnInfo = {
+        name       : string;
+        allowPip   : bool;
+        autoBoard  : bool;
+        autoDouble : bool;
+        autoMove   : bool;
+        away       : bool;
+        bell       : bool;
+        crawford   : bool;
+        double     : bool;
+        experience : int;
+        greedy     : bool;
+        moreBoards : bool;
+        moves      : bool;
+        notify     : bool;
+        rating     : float;
+        ratings    : bool;
+        ready      : bool;
+        redoubles  : Redoubles;
+        report     : bool;
+        silent     : bool;
+        timeZone   : TimeZone;
+    }
+
+    type Message =
+        | Welcome of Welcome
         | OwnInfo
-        | MOTD
+        | MOTDBegin
+        | MOTDEnd
         | WhoInfo
+        | WhoInfoEnd
         | Login
         | Logout
         | MessageReceived
@@ -24,48 +74,50 @@ module Message =
         | YouShout
         | YouWhisper
         | YouKibitz
-
-    type Error =
         | AlreadyLoggedIn
         | UsernameTaken of string
         | InvalidUsername
         | NoPasswordGiven
         | PasswordMismatch
-        | UnknownCommand of string
+        | UnknownCommand
+        | Unknown of string
+        | Empty
 
-    type Message =
-        | Info of Info
-        | Error of Error
+    let private parseMessage code (message:string) =
+        let args = message.Split [|' '|]
 
-    type ParseError =
-        | UnknownError of string
-        | UnknownMessage of string
-        | InvalidArguments
-
-    type ParseResult = Either<ParseError, Message>
-
-    let private parseMessage code message =
         match code with
-        | 1 -> Right (Info Welcome)
-        | 2 -> Right (Info OwnInfo)
-        | _ -> Left (UnknownMessage message)
+        | 1  -> Welcome (welcome args)
+        | 2  -> OwnInfo
+        | 3  -> MOTDBegin
+        | 4  -> MOTDEnd
+        | 5  -> WhoInfo
+        | 6  -> WhoInfoEnd
+        | 7  -> Login
+        | 8  -> Logout
+        | 9  -> MessageReceived
+        | 10 -> MessageDelivered
+        | 11 -> MessageSaved
+        | 12 -> Says
+        | 13 -> Shouts
+        | 14 -> Whispers
+        | 15 -> Kibitzes
+        | 16 -> YouSay
+        | 17 -> YouShout
+        | 18 -> YouWhisper
+        | 19 -> YouKibitz
+        | _ -> sprintf "%d %s" code message |> Unknown
 
-    let private parseError message =
+    let private parseOther message =
         match message with
-        | "Warning: You are already logged in."
-            -> Right (Error AlreadyLoggedIn)
-        | Regex @"Please use another name. '(.+?)' is already used by someone else\." [ username ]
-            -> Right (Error (UsernameTaken username))
-        | error -> Left (UnknownError error)
+        | "** Warning: You are already logged in."
+            -> AlreadyLoggedIn
+        | Regex @"^\*\* Please use another name. '(.+?)' is already used by someone else\.$" [ username ]
+            -> UsernameTaken username
+        | _ -> Unknown message
 
-    let private (|Error|_|) (message:string) =
-        let prefix = "** "
-        match message.StartsWith prefix with 
-        | true -> Some (message.Substring prefix.Length)
-        | false -> None
-
-    let parse message :ParseResult =
+    let parse message =
         match message with
-        | Regex @"(\d) ?(.*)" [code; message] -> parseMessage (Int32.Parse code) message
-        | Error error -> parseError error
-        | _ -> Left (UnknownMessage message)
+        | "" -> Empty
+        | Regex @"^(\d+) ?(.*)$" [code; message] -> parseMessage (Int32.Parse code) message
+        | _ -> parseOther message
