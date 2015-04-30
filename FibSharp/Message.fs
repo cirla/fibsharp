@@ -1,4 +1,4 @@
-﻿namespace FibSharp
+namespace FibSharp
 
 open System
 
@@ -121,3 +121,4 @@ module Message =
         | "" -> Empty
         | Regex @"^(\d+) ?(.*)$" [code; message] -> parseMessage (Int32.Parse code) message
         | _ -> parseOther message
+

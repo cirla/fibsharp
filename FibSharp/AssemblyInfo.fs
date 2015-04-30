@@ -1,4 +1,4 @@
-﻿module FibSharp.AssemblyInfo
+module FibSharp.AssemblyInfo
 open System.Reflection
 open System.Runtime.CompilerServices
 
@@ -17,3 +17,4 @@ open System.Runtime.CompilerServices
 //[<assembly: AssemblyKeyFile("")>]
 
 ()
+

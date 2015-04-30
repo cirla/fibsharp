@@ -1,4 +1,4 @@
-﻿namespace FibSharp
+namespace FibSharp
 
 open System.Text
 
@@ -29,3 +29,4 @@ module Command =
 
     let message user message =
         sprintf "message %s %s" user message
+

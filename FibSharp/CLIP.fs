@@ -1,11 +1,11 @@
-﻿namespace FibSharp
+namespace FibSharp
 
 open System
 open System.IO
 open System.Net.Sockets
 open System.Text
 
-module CLIP = 
+module CLIP =
 
     [<Literal>]
     let ClientName = "FibSharp_v0.1"
@@ -106,3 +106,4 @@ module CLIP =
         password |> send client
 
         close client
+

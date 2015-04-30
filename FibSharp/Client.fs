@@ -1,4 +1,4 @@
-﻿namespace FibSharp
+namespace FibSharp
 
 open System.IO
 open System.Net.Sockets
@@ -19,3 +19,4 @@ type Client() =
             CLIP.close c
             clip <- None
         | None -> ()
+

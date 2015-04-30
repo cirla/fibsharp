@@ -1,4 +1,4 @@
-﻿namespace FibSharpTest
+namespace FibSharpTest
 
 open System
 
@@ -8,7 +8,7 @@ open Swensen.Unquote
 
 open FibSharp.Utility
 
-module TestMessage = 
+module TestMessage =
     open FibSharp.Message
 
     [<Test>]
@@ -27,3 +27,4 @@ module TestMessage =
         |> parse =? UsernameTaken "foo"
 
         parse "** nonsense" =? Unknown "** nonsense"
+
