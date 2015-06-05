@@ -8,6 +8,15 @@ open MonoMac.AppKit
 
 open FibSharpMac.Controls
 
+type LoginView (frameRect:RectangleF) as self =
+    inherit NSView (frameRect)
+
+    do
+        let welcomeLabel = new Label "Welcome to FibSharp!"
+        self.AddSubview welcomeLabel
+
+        Layout.center welcomeLabel self
+
 type MainWindow =
     inherit NSWindow
 
@@ -16,8 +25,8 @@ type MainWindow =
     new (contentRect, style, bufferingType, deferCreation) =
         { inherit NSWindow (contentRect, style, bufferingType, deferCreation) }
 
-type MainWindowController() as self =
-    inherit NSWindowController()
+type MainWindowController () as self =
+    inherit NSWindowController ()
 
     do
         let rect = new RectangleF (0.0f, 0.0f, 640.0f, 480.0f)
@@ -29,16 +38,6 @@ type MainWindowController() as self =
         self.Window.Center ()
 
         let view = self.Window.ContentView
-        let label = new Label "Welcome to FibSharp!"
-        view.AddSubview label
 
-        NSLayoutConstraint.Create
-            (label, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal,
-             view, NSLayoutAttribute.CenterX, 1.0f, 0.0f)
-        |> view.AddConstraint
-
-        NSLayoutConstraint.Create
-            (label, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal,
-             view, NSLayoutAttribute.CenterY, 1.0f, 0.0f)
-        |> view.AddConstraint
-
+        let loginView = new LoginView (view.Frame)
+        view.AddSubview loginView

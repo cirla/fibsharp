@@ -26,15 +26,7 @@ type AboutWindow () as self =
         let label = new Label "FibSharp"
         view.AddSubview label
 
-        NSLayoutConstraint.Create
-            (label, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal,
-             view, NSLayoutAttribute.CenterX, 1.0f, 0.0f)
-        |> view.AddConstraint
-
-        NSLayoutConstraint.Create
-            (label, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal,
-             view, NSLayoutAttribute.CenterY, 1.0f, 0.0f)
-        |> view.AddConstraint
+        Layout.center label view
 
 type FibSharpAppDelegate () =
     inherit NSApplicationDelegate ()

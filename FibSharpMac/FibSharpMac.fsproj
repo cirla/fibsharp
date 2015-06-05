@@ -18,11 +18,12 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <EnablePackageSigning>false</EnablePackageSigning>
     <CreatePackage>false</CreatePackage>
-    <CodeSigningKey>Mac Developer</CodeSigningKey>
     <EnableCodeSigning>false</EnableCodeSigning>
     <ConsolePause>false</ConsolePause>
     <UseRefCounting>false</UseRefCounting>
-    <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
+    <Optimize>true</Optimize>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release</OutputPath>
@@ -37,6 +38,10 @@
     <ConsolePause>false</ConsolePause>
     <LinkMode>SdkOnly</LinkMode>
     <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
+    <Optimize>true</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|AnyCPU' ">
     <OutputPath>bin\AppStore</OutputPath>
@@ -52,6 +57,10 @@
     <ConsolePause>false</ConsolePause>
     <LinkMode>SdkOnly</LinkMode>
     <CodeSignEntitlements>Entitlements.plist</CodeSignEntitlements>
+    <Optimize>true</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>
+    </DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

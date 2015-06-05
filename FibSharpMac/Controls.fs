@@ -18,3 +18,15 @@ module Controls =
             self.DrawsBackground <- false
             self.Editable <- false
 
+    module Layout =
+
+        let center item (view:NSView) =
+            NSLayoutConstraint.Create
+                (item, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal,
+                 view, NSLayoutAttribute.CenterX, 1.0f, 0.0f)
+            |> view.AddConstraint
+
+            NSLayoutConstraint.Create
+                (item, NSLayoutAttribute.CenterY, NSLayoutRelation.Equal,
+                 view, NSLayoutAttribute.CenterY, 1.0f, 0.0f)
+            |> view.AddConstraint
