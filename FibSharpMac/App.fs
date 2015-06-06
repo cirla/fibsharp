@@ -25,8 +25,7 @@ type AboutWindow () as self =
         let view = self.ContentView
         let label = new Label "FibSharp"
         view.AddSubview label
-
-        Layout.center label view
+        Layout.center label
 
 type FibSharpAppDelegate () =
     inherit NSApplicationDelegate ()
